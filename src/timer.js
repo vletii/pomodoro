@@ -1,63 +1,52 @@
 export default function Timer({
   minutesDisplay,
   secondsDisplay,
-  resetControls,
+  sound,
 }) {
 
-  let timerTimeout
-  let minutes = Number(minutesDisplay.textContent)
+  let countDownInterval;
 
-  function updateDisplay(newMinutes, seconds) {
+  function start() {
+    
+    let timeLeft = Number(minutesDisplay.textContent) * 60 + Number(secondsDisplay.textContent);
+    countDownInterval = setInterval(() => {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+
+      minutesDisplay.textContent = `${minutes}`;
+      secondsDisplay.textContent = `${seconds < 10 ? '0' : ''}${seconds}`;
+      timeLeft--;
+
+      if (timeLeft < 0) {
+        clearInterval(countDownInterval);
+        sound.timeEnd();
+      }
+      
+    }, 1000);
+  }
+
+  function pause() {
+    clearInterval(countDownInterval);
+  }
+
+  function reset() {
+    clearInterval(countDownInterval);
+    minutesDisplay.textContent = `${'25'}`;
+    secondsDisplay.textContent = `${'00'}`;
+  }
+
+  function updateTimer(newMinutes, seconds) {
     newMinutes = newMinutes === undefined ? minutes : newMinutes
     seconds = seconds === undefined ? 0 : seconds
     minutesDisplay.textContent = String(newMinutes).padStart(2, "0")
     secondsDisplay.textContent = String(seconds).padStart(2, "0")
-    count
-  }
-    
-  function reset() {
-    updateDisplay(minutes, 0)
-    hold()
-  }
-
-  function countDown() {
-    timerTimeout = setTimeout(function () {
-      let seconds = Number(secondsDisplay.textContent)
-      let minutes = Number(minutesDisplay.textContent)
-      let isFinished = minutes <= 0 && seconds <= 0
-
-      updateDisplay(minutes, 0)
-
-      if (isFinished) {
-        resetControls()  
-        updateDisplay()
-        Sound().timeEnd()
-        return
-      }
-
-      if (seconds <= 0) {
-        seconds = 60
-        --minutes
-      }
-      updateDisplay(minutes, String(seconds -1))    
-      countDown()
-    }, 1000)  
-  }
-
-  function updateMinutes(newMinutes) {
-    minutes = newMinutes
-  }
-
-  function hold() {
-    clearTimeout(timerTimeout)
   }
 
   return {
-    countDown,
+    start,
     reset,
-    updateDisplay,
-    updateMinutes,
-    hold,
+    pause,
+    updateTimer,
   }
 }
 
