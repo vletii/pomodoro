@@ -1,5 +1,6 @@
 // TODO add to do list
 // TODO set custom time
+// TODO add difference between working interval or break 
 
 import Sound from './sound.js'
 import Controls from './controls.js'
@@ -18,7 +19,7 @@ const body = document.body;
 
 const sound = Sound();
 const controls = Controls({startButton, pauseButton, plusButton, minusButton, minutesDisplay});
-const timer = Timer({minutesDisplay, secondsDisplay, sound});
+const timer = Timer({minutesDisplay, secondsDisplay, sound, resetControl: controls.reset});
 
 
 startButton.addEventListener('click', () => {
@@ -33,26 +34,26 @@ pauseButton.addEventListener('click', () => {
   timer.pause();
 });
 
-
-// TODO find a way to reset it to the time someone else set it to
 resetButton.addEventListener('click', () => {
   controls.reset();
   sound.pressButton();
   timer.reset();
 });
 
-
 plusButton.addEventListener('click', () => {
   sound.pressButton();
   minutesDisplay.innerText = `${controls.addMinutes()}`;
+  timer.updateTimer();
 });
 
 minusButton.addEventListener('click', () => {
   sound.pressButton();
   minutesDisplay.innerText = `${controls.subtractMinutes()}`;
+  timer.updateTimer();
 })
 
 
+// potentially move this to another spot?
 toggle.addEventListener('click', () => {
   const isDarkMode = body.classList.contains('bg-black');
 

@@ -2,23 +2,25 @@ export default function Timer({
   minutesDisplay,
   secondsDisplay,
   sound,
+  resetControl,
 }) {
 
-  let countDownInterval;
+  let countDown;
+  let minutes = Number(minutesDisplay.textContent)
 
   function start() {
-    
-    let timeLeft = Number(minutesDisplay.textContent) * 60 + Number(secondsDisplay.textContent);
-    countDownInterval = setInterval(() => {
-      const minutes = Math.floor(timeLeft / 60);
+    let timeLeft = minutes * 60 + Number(secondsDisplay.textContent);
+    countDown = setInterval(() => {
+      const newMinutes = Math.floor(timeLeft / 60);
       const seconds = timeLeft % 60;
 
-      minutesDisplay.textContent = `${minutes}`;
+      minutesDisplay.textContent = `${newMinutes}`;
       secondsDisplay.textContent = `${seconds < 10 ? '0' : ''}${seconds}`;
       timeLeft--;
 
       if (timeLeft < 0) {
-        clearInterval(countDownInterval);
+        reset();
+        resetControl();
         sound.timeEnd();
       }
       
@@ -26,20 +28,17 @@ export default function Timer({
   }
 
   function pause() {
-    clearInterval(countDownInterval);
+    clearInterval(countDown);
   }
 
   function reset() {
-    clearInterval(countDownInterval);
-    minutesDisplay.textContent = `${'25'}`;
+    clearInterval(countDown);
+    minutesDisplay.textContent = `${minutes}`;
     secondsDisplay.textContent = `${'00'}`;
   }
 
-  function updateTimer(newMinutes, seconds) {
-    newMinutes = newMinutes === undefined ? minutes : newMinutes
-    seconds = seconds === undefined ? 0 : seconds
-    minutesDisplay.textContent = String(newMinutes).padStart(2, "0")
-    secondsDisplay.textContent = String(seconds).padStart(2, "0")
+  function updateTimer() {
+    minutes = Number(minutesDisplay.textContent);
   }
 
   return {
