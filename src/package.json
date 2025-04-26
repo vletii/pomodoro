@@ -1,0 +1,15 @@
+{
+  "name": "pomodoro",
+  "version": "1.0.0",
+  "description": "pomodoro-style timer",
+  "main": "index.js",
+  "scripts": {
+    "start": "pomodoro .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Leticia Vong",
+  "license": "ISC",
+  "devDependencies": {
+    "pomodoro": "^0.2.1"
+  }
+}
