@@ -27,6 +27,7 @@ export default function Controls({
 
   function addMinutes() {
     let minutes = Number(minutesDisplay.textContent)
+
     // cap it at 150 min = 2h30
     if (minutes >= 150)
       return minutes;
@@ -36,6 +37,7 @@ export default function Controls({
 
   function subtractMinutes() {
     let minutes = Number(minutesDisplay.textContent)
+    
     // limit it at 5 min
     if (minutes <= 5)
       return minutes;

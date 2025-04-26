@@ -9,7 +9,7 @@ export default function Timer({
   let minutes = Number(minutesDisplay.textContent)
 
   function start() {
-    let timeLeft = minutes * 60 + Number(secondsDisplay.textContent);
+    let timeLeft = Number(minutesDisplay.textContent) * 60 + Number(secondsDisplay.textContent);
     countDown = setInterval(() => {
       const newMinutes = Math.floor(timeLeft / 60);
       const seconds = timeLeft % 60;
