@@ -15,12 +15,9 @@ The project is composed of the following files:
 
 ## TODO 
 
-- [] main timer
+- [x] main timer
+- [] set custom time (smth like a cursor maybe or a settings popup)
+- [] differentiate between work and break session
+- [] customize sessions before long break
 - [] task list
 - [] set duration for each task
-
-- timer
-- set duration of timer
-- tasks of the day
-- tasks and time allocated
-- finished tasks
