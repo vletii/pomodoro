@@ -2,7 +2,7 @@
 
 
 ## Project
-This is a JavaScript project that implements a timer (Pomodoro-style) to increase productivity and focus.
+This is a JavaScript project that implements a timer (Pomodoro-style) to increase productivity and focus. It also includes a to-do task list feature to help users manage their tasks effectively.
 
 ## How to Use
 To access the finished project, [click here](https://vletii.github.io/pomodoro/).
@@ -21,3 +21,6 @@ The project is composed of the following files:
 - [] customize sessions before long break
 - [] task list
 - [] set duration for each task
+
+## Status
+This project is still a work in progress. Some features are incomplete or under development.
