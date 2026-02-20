@@ -19,7 +19,10 @@ The project is composed of the following files:
 - [] set custom time (smth like a cursor maybe or a settings popup)
 - [] differentiate between work and break session
 - [] customize sessions before long break
-- [] task list
+- [x] task list
+- [] reordering of tasks
+- [x] edit each task's text
+- [] delete a particular task
 - [] set duration for each task
 
 ## Status

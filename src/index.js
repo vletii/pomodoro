@@ -119,7 +119,7 @@ function renderTasks() {
   if (task.length === 0) {
     const emptyMessage = document.createElement("li");
     emptyMessage.textContent = "No tasks to complete.";
-    emptyMessage.style.color = "gray"; // Optional: Add a subtle color
+    emptyMessage.style.color = "gray";
     taskListContainer.appendChild(emptyMessage);
     return;
   }
@@ -129,7 +129,7 @@ function renderTasks() {
     taskItem.innerHTML = `
       <div class="task-container">
         <input type="checkbox" class="task-checkbox" ${item.completed ? "checked" : ""} data-index="${index}">
-        <span class="task-text ${item.completed ? "completed" : ""}">${item.text}</span>
+        <p id="todo-${index}" class="${item.completed ? "completed" : ""}">${item.text}</p>
       </div>
     `;
     taskItem.querySelector(".task-checkbox").addEventListener("change", function() {
@@ -137,7 +137,30 @@ function renderTasks() {
       saveToLocalStorage();
       renderTasks();
     });
+
+    taskItem.querySelector(`#todo-${index}`).addEventListener("click", function() {
+      editTask(index); 
+    });
     taskListContainer.appendChild(taskItem);
+  });
+}
+
+function editTask(index) {
+  const taskTextElement = document.getElementById(`todo-${index}`);
+  const currentText = task[index].text;
+
+  const inputField = document.createElement("input");
+  inputField.value = currentText;
+  taskTextElement.replaceWith(inputField);
+  inputField.focus();
+
+  inputField.addEventListener("blur", function() {
+    const updatedText = inputField.value.trim();
+    if (updatedText) {
+      task[index].text = updatedText;
+      saveToLocalStorage();
+    }
+    renderTasks();
   });
 }
 

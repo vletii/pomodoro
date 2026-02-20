@@ -129,6 +129,12 @@ body {
   margin-bottom: 20px;
 }
 
+.task-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 input[type="checkbox"] {
   appearance: none;
   cursor: pointer;
@@ -151,7 +157,7 @@ input[type="checkbox"]:checked::before {
   border-radius: 50%;
 }
 
-.task-text.completed {
+.completed {
   text-decoration: line-through;
   color: gray; 
 }
