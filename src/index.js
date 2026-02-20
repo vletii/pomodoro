@@ -89,7 +89,6 @@ clearAllButton.addEventListener("click", clearAllTasks);
 renderTasks();
 
 function addTask() {
-  console.log("Adding task...");
   const newTask = taskInput.value.trim();
   if (newTask === "") {
     return;
@@ -102,13 +101,12 @@ function addTask() {
 }
 
 function clearCompletedTasks() {
-  console.log("Clearing completed tasks...");
-  // Remove completed tasks
-
+  task = task.filter(item => !item.completed);
+  saveToLocalStorage();
+  renderTasks();
 }
 
 function clearAllTasks() {
-  console.log("Clearing all tasks...");
   task = [];
   localStorage.removeItem("task");
   renderTasks();
@@ -118,12 +116,20 @@ function renderTasks() {
   const taskListContainer = document.querySelector("#task-list ul");
   taskListContainer.innerHTML = "";
 
-  task.forEach((task, index) => {
+  if (task.length === 0) {
+    const emptyMessage = document.createElement("li");
+    emptyMessage.textContent = "No tasks to complete.";
+    emptyMessage.style.color = "gray"; // Optional: Add a subtle color
+    taskListContainer.appendChild(emptyMessage);
+    return;
+  }
+
+  task.forEach((item, index) => {
     const taskItem = document.createElement("li");
     taskItem.innerHTML = `
       <div class="task-container">
-        <input type="checkbox" class="task-checkbox" ${task.completed ? "checked" : ""} data-index="${index}">
-        <span class="task-text ${task.completed ? "completed" : ""}">${task.text}</span>
+        <input type="checkbox" class="task-checkbox" ${item.completed ? "checked" : ""} data-index="${index}">
+        <span class="task-text ${item.completed ? "completed" : ""}">${item.text}</span>
       </div>
     `;
     taskItem.querySelector(".task-checkbox").addEventListener("change", function() {
