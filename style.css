@@ -91,9 +91,39 @@ body {
   background-color: #f9f9f9; 
 }
 
-#task-list h2 {
-  padding: 10px;
-  font-size: 1.9rem;
+/* Dark mode styles */
+body.bg-black #task-list {
+  background-color: #222;
+  color: #fff;
+  border-color: #555;
+}
+
+body.bg-black #task-list h2 {
+  color: #fff;
+}
+
+body.bg-black #task-input-container input {
+  background-color: #333;
+  color: #fff;
+  border-color: #555;
+}
+
+body.bg-black #task-input-container button {
+  background-color: #444;
+  color: #fff;
+  border-color: #666;
+}
+
+body.bg-black #clear-buttons-container button {
+  background-color: #444;
+  color: #fff;
+  border-color: #666;
+}
+
+body.bg-black #todo-list {
+  background-color: #333;
+  color: #fff;
+  border-color: #555;
 }
 
 #task-list input {
