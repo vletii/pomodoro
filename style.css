@@ -1,9 +1,18 @@
+:root {
+  /* shared theme variables (also used by the task checkboxes) */
+  --grey-border: #c7c7c7;
+  --white: #ffffff;
+  --green: #2e9e4f;
+  --icon-color-card-selected: #34a853;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  
-  /* background: var(--bg-color);
-  color: var(--text-color); */
+
+  /* Light mode (default). Dark mode is defined via body.dark below. */
+  background-color: #ffffff;
+  color: #1f1f1f;
 
   min-height: 100vh;
 }
@@ -80,6 +89,10 @@ body {
   color: var(--icon-color-card-selected);
 }
 
+#controls button svg path {
+  fill: currentColor;
+}
+
 #task-list {
   display: flex;
   flex-direction: column;
@@ -92,44 +105,54 @@ body {
 }
 
 /* Dark mode styles */
-body.bg-black #task-list {
+body.dark {
+  background-color: #121212;
+  color: #e8e8e8;
+  color-scheme: dark;
+  --grey-border: #5f5f5f;
+  --white: #f2f2f2;
+}
+
+body.dark #task-list {
   background-color: #222;
   color: #fff;
   border-color: #555;
 }
 
-body.bg-black #task-list h2 {
+body.dark #task-list h2 {
   color: #fff;
 }
 
-body.bg-black #task-input-container input {
+body.dark #task-input-container input {
   background-color: #333;
   color: #fff;
   border-color: #555;
 }
 
-body.bg-black #task-input-container button {
+body.dark #task-input-container button {
   background-color: #444;
   color: #fff;
   border-color: #666;
 }
 
-body.bg-black #clear-buttons-container button {
+body.dark #clear-buttons-container button {
   background-color: #444;
   color: #fff;
   border-color: #666;
 }
 
-body.bg-black #todo-list {
+body.dark #todo-list {
   background-color: #333;
   color: #fff;
   border-color: #555;
 }
 
-#task-list input {
+#task-list input[type="text"] {
   font-size: 1.1rem;
-  width: 120px;
-  align-items: center;
+  width: 200px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 5px;
 }
 
 #task-list button {
@@ -139,13 +162,6 @@ body.bg-black #todo-list {
   border: 2px solid #ccc;
   border-radius: 10px;
   background-color: #f9f9f9; 
-}
-
-#task-list input {
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 5px;
-  width: fit-content;
 }
 
 #todo-list {
@@ -168,23 +184,30 @@ body.bg-black #todo-list {
 input[type="checkbox"] {
   appearance: none;
   cursor: pointer;
+  width: 20px;
+  height: 20px;
   margin-top: 5px;
   margin-bottom: 5px;
+  padding: 0;
 }
 
 input[type="checkbox"]::before {
   content: "\2713";
-  text-align: center;
-  border: 0.06rem solid var(--grey-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--grey-border);
   border-radius: 50%;
+  background-color: var(--white);
   color: transparent;
 }
 
 input[type="checkbox"]:checked::before {
   color: var(--white);
   background-color: var(--green);
-  border: 0.06rem solid var(--green);
-  border-radius: 50%;
+  border: 2px solid var(--green);
 }
 
 .completed {

@@ -5,36 +5,84 @@ export default function Timer({
   resetControl,
 }) {
 
-  let countDown;
-  let minutes = Number(minutesDisplay.textContent)
+  let countDown = null;
+  let minutes = Number(minutesDisplay.textContent);
+  // Absolute timestamp at which the current session must finish.
+  let endTime = 0;
+  // Remaining duration, kept so pause()/start() resume exactly.
+  let remainingMs = 0;
 
   function start() {
-    let timeLeft = Number(minutesDisplay.textContent) * 60 + Number(secondsDisplay.textContent);
+    // Never stack two countdowns.
+    if (countDown) {
+      return;
+    }
+
+    // Resume from where we paused, or start fresh from the display.
+    if (remainingMs <= 0) {
+      remainingMs = (Number(minutesDisplay.textContent) * 60 + Number(secondsDisplay.textContent)) * 1000;
+    }
+    endTime = Date.now() + remainingMs;
+
+    // Tick faster than 1s so the display stays crisp, but always compute the
+    // remaining time from the wall clock. 
     countDown = setInterval(() => {
-      const newMinutes = Math.floor(timeLeft / 60);
-      const seconds = timeLeft % 60;
+      remainingMs = endTime - Date.now();
 
-      minutesDisplay.textContent = `${newMinutes}`;
-      secondsDisplay.textContent = `${seconds < 10 ? '0' : ''}${seconds}`;
-      timeLeft--;
-
-      if (timeLeft < 0) {
-        reset();
-        resetControl();
-        sound.timeEnd();
+      if (remainingMs <= 0) {
+        remainingMs = 0;
+        render(0);
+        endSession();
+        return;
       }
-      
-    }, 1000);
+
+      render(remainingMs);
+    }, 250);
+  }
+
+  function render(ms) {
+    const totalSeconds = Math.ceil(ms / 1000);
+    const newMinutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    minutesDisplay.textContent = `${newMinutes}`;
+    secondsDisplay.textContent = `${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+
+  function endSession() {
+    clearInterval(countDown);
+    countDown = null;
+    endTime = 0;
+    remainingMs = 0;
+    resetControl();
+    sound.timeEnd();
+    reset();
   }
 
   function pause() {
+    if (!countDown) {
+      return;
+    }
+
     clearInterval(countDown);
+    countDown = null;
+    remainingMs = endTime - Date.now();
+
+    if (remainingMs < 0) {
+      remainingMs = 0;
+    }
   }
 
   function reset() {
-    clearInterval(countDown);
+    if (countDown) {
+      clearInterval(countDown);
+      countDown = null;
+    }
+
+    endTime = 0;
+    remainingMs = 0;
     minutesDisplay.textContent = `${minutes}`;
-    secondsDisplay.textContent = `${'00'}`;
+    secondsDisplay.textContent = '00';
   }
 
   function updateTimer() {

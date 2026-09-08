@@ -56,18 +56,15 @@ minusButton.addEventListener('click', () => {
 })
 
 
-// potentially move this to another spot?
 toggle.addEventListener('click', () => {
-  const isDarkMode = body.classList.contains('bg-black');
+  const isDarkMode = body.classList.contains('dark');
 
   if (isDarkMode) {
-      body.classList.remove('bg-black', 'text-white');
-      body.classList.add('bg-white', 'text-black');
-      toggle.classList.remove('dark');
+    body.classList.remove('dark');
+    toggle.classList.remove('dark');
   } else {
-      body.classList.remove('bg-white', 'text-black');
-      body.classList.add('bg-black', 'text-white');
-      toggle.classList.add('dark');
+    body.classList.add('dark');
+    toggle.classList.add('dark');
   }
 });
 
